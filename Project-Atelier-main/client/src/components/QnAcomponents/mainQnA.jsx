@@ -36,23 +36,7 @@ class QnA extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.currentProduct.id !== this.props.currentProduct.id) {
-      console.log('should be updated with ', this.props.currentProduct.id);
       let productId = this.props.currentProduct.id;
-      //GET PRODUCT NAME BY ITS ID
-      var url = '/qna/getProductById';
-      axios.get(url, {params: {id: productId}})
-        .then((response) => {
-          if (this._isMounted) {
-            console.log('got product id main 45');
-            this.setState({
-              productName: response.data.name
-            });
-          }
-
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
       //GET QUESTIONS LIST BY PRODUCT ID
       var url = '/qna/getQuestionsList';
       axios.get(url, {params: {id: productId}})
@@ -81,27 +65,17 @@ class QnA extends React.Component {
   }
   componentDidMount() {
     this._isMounted = true;
-    //console.log(this.props);
-
     let productId = this.props.productId;
-    //GET PRODUCT NAME BY ITS ID
-    var url = '/qna/getProductById';
-    axios.get(url, {params: {id: productId}})
-      .then((response) => {
-        if (this._isMounted) {
-          this.setState({
-            productName: response.data.name
-          });
-        }
-
-      })
-      .catch(function (error) {
-        console.log(error);
+    if (this._isMounted) {
+      this.setState({
+        productName: this.props.currentProduct.name
       });
+    }
     //GET QUESTIONS LIST BY PRODUCT ID
     var url = '/qna/getQuestionsList';
     axios.get(url, {params: {id: productId}})
       .then((response) => {
+        console.log('questions:', response.data.results);
         var questionsToShow = response.data.results;
         if (questionsToShow.length > 2) {
           if (this._isMounted) {
