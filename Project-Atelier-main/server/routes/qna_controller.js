@@ -23,6 +23,17 @@ var receiveQuestionList = function receiveQuestionList(id) {
     });
   });
 };
+var receiveAnswerList = function receiveQuestionList(id) {
+  return new Promise((resolve, reject)=> {
+    api.getAnswersFromHR(id, (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
 
 var increaseQuestionHelp = function increaseQuestionHelp(id) {
   return new Promise((resolve, reject) => {
@@ -61,6 +72,7 @@ var addQuestionToServer = function addQuestionToServer(productId, body, name, em
 };
 
 var addAnswerToServer = function addAnswerToServer(questionId, body, name, email, photos) {
+  console.log('server is adding new answer2:', questionId, body, name, email, photos);
   return new Promise((resolve, reject) => {
     api.addNewAnswerToHR(questionId, body, name, email, photos, (err, result) => {
       if (err) {
@@ -84,12 +96,26 @@ var reportAnswerToServer = function reportAnswerToServer(answerId) {
   });
 };
 
+var reportQuestionToServer = function reportQuestionToServer(questionId) {
+  return new Promise((resolve, reject) => {
+    api.reportQuestionToHR(questionId, (err, result) => {
+      if (err) {
+        reject (err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
+
 module.exports = {
   receiveProductInfoById,
   receiveQuestionList,
+  receiveAnswerList,
   increaseQuestionHelp,
   increaseAnswerHelp,
   addQuestionToServer,
   addAnswerToServer,
-  reportAnswerToServer
+  reportAnswerToServer,
+  reportQuestionToServer
 };

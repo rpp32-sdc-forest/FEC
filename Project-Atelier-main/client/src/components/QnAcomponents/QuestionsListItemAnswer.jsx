@@ -69,12 +69,12 @@ class QuestionsListItemAnswer extends React.Component {
 
     return (
       <div className='qna-answer-item-wrapper'>
-
         <div className='qna-answer-item-body'>A:{this.props.answer.body}</div>
         <div className='qna-answer-photo-upload'>{this.props.answer.photos.length > 0 &&
           this.props.answer.photos.map((item, index) => {
+            // console.log(this.props.answer);
             return (
-              <div key={item}>
+              <div key={index}>
                 <img src={item} alt='' width={'350px'} />
               </div>
             );

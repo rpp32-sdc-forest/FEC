@@ -26,6 +26,7 @@ class QnA extends React.Component {
     this.clickOnHelpfulQuestion = this.clickOnHelpfulQuestion.bind(this);
     this.clickOnHelpfulAnswer = this.clickOnHelpfulAnswer.bind(this);
     this.reportAnswer = this.reportAnswer.bind(this);
+    this.reportQuestion = this.reportQuestion.bind(this);
     this.addNewAnswer = this.addNewAnswer.bind(this);
     this.addNewQuestion = this.addNewQuestion.bind(this);
     this.checkAddingNewQuestion = this.checkAddingNewQuestion.bind(this);
@@ -75,7 +76,7 @@ class QnA extends React.Component {
     var url = '/qna/getQuestionsList';
     axios.get(url, {params: {id: productId}})
       .then((response) => {
-        console.log('questions:', response.data.results);
+        console.log('questions:', response.data);
         var questionsToShow = response.data.results;
         if (questionsToShow.length > 2) {
           if (this._isMounted) {
@@ -169,7 +170,24 @@ class QnA extends React.Component {
     productId = this.props.currentProduct.id;
     //SEND REQUEST TO REPORT ANSWER
     var url = '/qna/reportAnswer';
-    axios.put(url, {params: {answerId: answerId, productId: productId}})
+    if (answerId) {
+      axios.put(url, {params: {answerId: answerId, productId: productId}})
+        .then((response) => {
+          console.log('sent response to client', response);
+          this.updateQuestionList(response.data.results);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }
+
+  reportQuestion(questionId) {
+    console.log('clicked on report question');
+    //SEND REQUEST TO REPORT ANSWER
+    var url = '/qna/reportQuestion';
+    let productId = this.props.currentProduct.id;
+    axios.put(url, {params: {questionId: questionId, productId: productId}})
       .then((response) => {
         console.log('sent response to client', response);
         this.updateQuestionList(response.data.results);
@@ -191,8 +209,8 @@ class QnA extends React.Component {
           let file = photos[i];
           var formData = new FormData();
           formData.append('file', file);
-          formData.append('upload_preset', config.uploadPreset);
-          axios.post ('https://api.cloudinary.com/v1_1/dtve8mtfz/upload', formData)
+          formData.append('upload_preset', 'a3yw936t');
+          axios.post('https://api.cloudinary.com/v1_1/dqidinkkf/upload', formData)
             .then((response) => {
               console.log('uploaded photo', response.data.secure_url);
               photosToSend.push(response.data.secure_url);
@@ -214,7 +232,7 @@ class QnA extends React.Component {
             .then((response) => {
               console.log('added new answer', response.data.results);
               //render new answer in the parent component
-              this.updateQuestionList(response.data.results);
+              this.componentDidMount();
             })
             .catch(function (error) {
               console.log(error);
@@ -223,6 +241,7 @@ class QnA extends React.Component {
     } else {
       //send answer without photos
       //SEND REQUEST TO SERVER TO ADD A NEW ANSWER
+      console.log('front end post answers');
       var url = '/qna/addNewAnswer';
       axios.post(url, {params: {id: questionId, productId: productId, body: body, name: nickname, email: email, photos: []}})
         .then((response) => {
@@ -329,6 +348,7 @@ class QnA extends React.Component {
           clickOnHelpful={this.clickOnHelpfulQuestion}
           clickOnHelpfulAnswer={this.clickOnHelpfulAnswer}
           reportAnswer={this.reportAnswer}
+          reportQuestion={this.reportQuestion}
           addNewAnswer={this.addNewAnswer}
           productName={this.state.productName}
         />

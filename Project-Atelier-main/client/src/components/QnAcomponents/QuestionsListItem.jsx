@@ -13,12 +13,14 @@ class QuestionsListItem extends React.Component {
       isMoreAnswersShown: false,
       isHelpful: false,
       buttonText: 'SHOW MORE ANSWERS',
-      questionId: 0
+      questionId: 0,
+      isReported: false
     };
     this.clickOnMoreAnswers = this.clickOnMoreAnswers.bind(this);
     this.addAnswerHandleClick = this.addAnswerHandleClick.bind(this);
     this.clickOnHelpful = this.clickOnHelpful.bind(this);
     this.closeAnswerForm = this.closeAnswerForm.bind(this);
+    this.reportQuestion = this.reportQuestion.bind(this);
   }
 
   // componentDidUpdate(prevProps, prevState) {
@@ -36,10 +38,12 @@ class QuestionsListItem extends React.Component {
   //     });
   //   }
   // }
-
   componentDidMount() {
 
-    let answersToShow = Object.values(this.props.question.answers);
+    let answersToShow = [];
+    if (this.props.question.answers) {
+      answersToShow = Object.values(this.props.question.answers);
+    }
     if (answersToShow.length > 2) {
       this.setState({
         isMoreAnswersShown: true
@@ -49,6 +53,21 @@ class QuestionsListItem extends React.Component {
     this.setState({
       answers: answersToShow
     });
+  }
+
+  reportQuestion() {
+    let questionId = this.props.question.question_id;
+
+    if (!this.state.isReported) {
+      this.props.reportQuestion(questionId);
+      this.setState({
+        isReported: true
+      });
+
+    } else {
+      alert('you\'ve already reported this question');
+    }
+
   }
 
   clickOnMoreAnswers() {
@@ -110,8 +129,9 @@ class QuestionsListItem extends React.Component {
       answerItems = Object.values(this.props.question.answers);
 
     } else {
-      answerItems = Object.values(this.props.question.answers).slice(0, 2);
-
+      if (this.props.question.answers) {
+        answerItems = Object.values(this.props.question.answers).slice(0, 2);
+      }
     }
 
     if (this.state.isAddAnswerClicked) {
@@ -120,15 +140,17 @@ class QuestionsListItem extends React.Component {
       qnaAddAnswerModal = 'qna-add-answer-modal-hidden';
     }
 
-    if (Object.values(this.props.question.answers).length > 2) {
-      moreAnswers = <button id='qna-more-answers-button' onClick={()=>{ this.clickOnMoreAnswers(); }}>{this.state.buttonText}</button>;
-      answersList = <AnswersList list={answerItems}
-        questionId={this.props.question.question_id}
-        productId={this.props.productId}
-        clickOnHelpfulAnswer={this.props.clickOnHelpfulAnswer}
-        reportAnswer={this.props.reportAnswer}
-      />;
+    if (this.props.question.answers) {
+      if (Object.values(this.props.question.answers).length ) {
+        moreAnswers = <button id='qna-more-answers-button' onClick={()=>{ this.clickOnMoreAnswers(); }}>{this.state.buttonText}</button>;
+        answersList = <AnswersList list={answerItems}
+          questionId={this.props.question.question_id}
+          productId={this.props.productId}
+          clickOnHelpfulAnswer={this.props.clickOnHelpfulAnswer}
+          reportAnswer={this.props.reportAnswer}
+        />;
 
+      }
     } else {
       moreAnswers = <div></div>;
       answersList = <AnswersList list={answerItems}
@@ -155,6 +177,7 @@ class QuestionsListItem extends React.Component {
             <div className='qna-question-item-yes-button' onClick={()=>{ this.clickOnHelpful(); }}><u>Yes</u>({this.props.question.question_helpfulness})</div>
             <div className='qna-question-item-answer-border'>|</div>
             <div className='qna-add-answer-link' onClick={(e)=> this.addAnswerHandleClick(e)}>Add answer</div>
+            <div className='qna-question-item-yes-button' onClick={()=>{ this.reportQuestion(); }}><u>Report</u></div>
             <div className={qnaAddAnswerModal}>
               <AddAnswerForm name={this.props.name}
                 question_body={this.props.question.question_body}
