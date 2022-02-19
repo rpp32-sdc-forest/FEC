@@ -97,9 +97,9 @@ const ReviewList = ( { handleAverageRate, handleReviews, onClick, productId, cur
           setHelpfulReviewArray(results.slice(0).sort((x, y)=>{ return y.helpfulness - x.helpfulness; }));
           axios.get('ratings/ratingOverview', { params: { Id: productId } })
             .then((response)=>{
-              // console.log('response in comp', response);
+              // console.log('char response in comp', response);
               if (mounted) {
-                // console.log('response', response);
+                console.log('char response', response.data.characteristics);
                 setAverageRate(response.data.ratings.average);
                 handleAverageRate(response.data.ratings.average);
                 setRecommended(response.data.recommended);

@@ -40,8 +40,9 @@ const updateHelpfulness = (reviewId) => {
 const updateReported = (reviewId) => {
   let options = {
     method: 'PUT',
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${reviewId}/report`,
-    headers: { Authorization: gitToken.Token },
+    url: `http://localhost:5000/report/${reviewId}`
+    // url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${reviewId}/report`,
+    // headers: { Authorization: gitToken.Token },
   };
   return axios(options)
     .then(response => {
@@ -73,7 +74,7 @@ const ratingOverview = (productId) => {
 };
 
 const postReview = async (body) => {
-  console.log('body', body);
+  console.log('body in server', body);
   let params = {
     'product_id': body.productId,
     'rating': body.rating,
@@ -91,10 +92,12 @@ const postReview = async (body) => {
       params['characteristics'][chars[i].Id] = chars[i].val;
     }
   }
+  console.log('params', params);
   let options = {
     method: 'POST',
-    url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews',
-    headers: { Authorization: gitToken.Token },
+    // url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews',
+    url: 'http://localhost:5000/ratings',
+    // headers: { Authorization: gitToken.Token },
     data: params
   };
   return axios(options)
