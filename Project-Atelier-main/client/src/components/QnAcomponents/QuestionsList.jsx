@@ -14,7 +14,7 @@ class QuestionsList extends React.Component {
       return b.helpfulness - a.helpfulness;
     }));
 
-  
+
 
     return (
       <div>
@@ -28,6 +28,7 @@ class QuestionsList extends React.Component {
             clickOnHelpful={this.props.clickOnHelpful}
             clickOnHelpfulAnswer={this.props.clickOnHelpfulAnswer}
             reportAnswer={this.props.reportAnswer}
+            reportQuestion={this.props.reportQuestion}
             addNewAnswer={this.props.addNewAnswer}
             productName={this.props.productName}
           />;

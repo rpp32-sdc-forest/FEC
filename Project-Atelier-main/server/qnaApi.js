@@ -17,10 +17,27 @@ var getProductFromHR = function getProductFromHR(id, callback) {
 
 };
 
+// https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${id}
 var getQuestionsFromHR = function getQuestionsFromHR(id, callback) {
   let options = {
     method: 'GET',
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions?product_id=${id}`,
+    url: `http://localhost:3001/qa/questions/${id}`,
+  };
+
+  axios.get(options.url, options)
+    .then(function (response) {
+      callback(null, response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+      callback(error, null);
+    });
+};
+
+var getAnswersFromHR = function getQuestionsFromHR(id, callback) {
+  let options = {
+    method: 'GET',
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${id}/answers`,
     headers: { Authorization: gitToken.Token }
   };
   axios.get(options.url, options)
@@ -36,9 +53,9 @@ var getQuestionsFromHR = function getQuestionsFromHR(id, callback) {
 var addQuestionHelpHR = function addQuestionHelpHR(id, callback) {
   let options = {
     method: 'PUT',
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${id}/helpful`,
-    headers: { Authorization: gitToken.Token }
+    url: `http://localhost:3001/qa/questions/${id}/helpful`,
   };
+  console.log('question helpful:', id);
   axios.put(options.url, '', options)
     .then(function (response) {
       callback(null, response.data);
@@ -51,9 +68,9 @@ var addQuestionHelpHR = function addQuestionHelpHR(id, callback) {
 var addAnswerHelpHR = function addAnswerHelpHR(id, callback) {
   let options = {
     method: 'PUT',
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/answers/${id}/helpful`,
-    headers: { Authorization: gitToken.Token }
+    url: `http://localhost:3001/qa/answers/${id}/helpful`,
   };
+  console.log('answer helpful:', id);
   axios.put(options.url, '', options)
     .then(function (response) {
       callback(null, response.data);
@@ -63,18 +80,16 @@ var addAnswerHelpHR = function addAnswerHelpHR(id, callback) {
     });
 };
 
-var addNewQuestionToHR = function addNewQuestionToHR(productId, body, nick, email, callback) {
+var addNewQuestionToHR = function addNewQuestionToHR(id, body, name, email, callback) {
   let options = {
     method: 'POST',
-    url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions',
-    headers: { Authorization: gitToken.Token },
+    url: `http://localhost:3001/qa/questions/${id}`,
     // eslint-disable-next-line camelcase
-    body: { body: body, name: nick, email: email, product_id: productId }
+    body: { body: body, name: name, email: email, product_id: id }
   };
-  //console.log('post options', options);
   axios.post(options.url, options.body, options)
     .then(function (response) {
-      //console.log('got response creating new question', response);
+      // console.log('got response creating new question', response);
       callback(null, response.data);
     })
     .catch(function (error) {
@@ -88,10 +103,10 @@ var addNewAnswerToHR = function addNewAnswerToHR(questionId, body, name, email, 
 
   let options = {
     method: 'POST',
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/answers`,
-    headers: { Authorization: gitToken.Token },
-    body: { body: body, name: name, email: email, photos: photos }
+    url: `http://localhost:3001/qa/answers/${questionId}`,
+    body: {id: questionId, body: body, name: name, email: email, photos: photos }
   };
+  console.log('server is adding new answer3:', questionId, body, name, email, photos);
 
   axios.post(options.url, options.body, options)
     .then(function (response) {
@@ -108,13 +123,27 @@ var reportAnswerToHR = function reportAnswerToServer (answerId, callback) {
 
   let options = {
     method: 'PUT',
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/answers/${answerId}/report`,
-    headers: { Authorization: gitToken.Token }
+    url: `http://localhost:3001/qa/answers/${answerId}/report`,
   };
 
   axios.put(options.url, '', options)
     .then(function (response) {
-      console.log('got response');
+      callback(null, response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+      callback(error, null);
+    });
+};
+
+var reportQuestionToHR = function reportQuestionToServer (questionId, callback) {
+
+  let options = {
+    method: 'PUT',
+    url: `http://localhost:3001/qa/questions/${questionId}/report`,
+  };
+  axios.put(options.url, '', options)
+    .then(function (response) {
       callback(null, response.data);
     })
     .catch(function (error) {
@@ -130,5 +159,7 @@ module.exports = {
   addAnswerHelpHR,
   addNewQuestionToHR,
   addNewAnswerToHR,
-  reportAnswerToHR
+  reportAnswerToHR,
+  getAnswersFromHR,
+  reportQuestionToHR
 };
