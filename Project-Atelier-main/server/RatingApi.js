@@ -5,11 +5,14 @@ const gitToken = require('../config.js');
 const getTotalReviews = (productId, page) => {
   let options = {
     method: 'GET',
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${productId}&count=50&sort=relevant&page=${page}`,
-    headers: { Authorization: gitToken.Token },
+    // url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${productId}&count=50&sort=relevant&page=${page}`,
+    url: 'http://localhost:5000/ratings/18',
+    // url: `http://localhost:5000/ratings/${productId}`,
+    // headers: { Authorization: gitToken.Token },
   };
   return axios(options)
     .then(response => {
+      // console.log('get Reviews res', response.data);
       return response.data;
     })
     .catch((err) => {
@@ -17,13 +20,16 @@ const getTotalReviews = (productId, page) => {
     });
 };
 const updateHelpfulness = (reviewId) => {
+  // console.log('reviewId in server', reviewId);
   let options = {
     method: 'PUT',
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${reviewId}/helpful`,
-    headers: { Authorization: gitToken.Token },
+    // url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${reviewId}/helpful`,
+    url: `http://localhost:5000/helpful/${reviewId}`
+    // headers: { Authorization: gitToken.Token },
   };
   return axios(options)
     .then(response => {
+      // console.log('response', response);
       return response;
     })
     .catch((err) => {
@@ -49,11 +55,16 @@ const updateReported = (reviewId) => {
 const ratingOverview = (productId) => {
   let options = {
     method: 'GET',
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/meta?product_id=${productId}`,
-    headers: { Authorization: gitToken.Token },
+    // url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/meta?product_id=${productId}`,
+    url: 'http://localhost:5000/characteristics/18',
+    // headers: { Authorization: gitToken.Token },
   };
   return axios(options)
     .then(response => {
+      // console.log('response in server', response.data);
+      //parse
+      // response = JSON.parse(response.data);
+      // console.log('parsed response', response);
       return response.data;
     })
     .catch((err) => {
@@ -62,6 +73,7 @@ const ratingOverview = (productId) => {
 };
 
 const postReview = async (body) => {
+  console.log('body', body);
   let params = {
     'product_id': body.productId,
     'rating': body.rating,

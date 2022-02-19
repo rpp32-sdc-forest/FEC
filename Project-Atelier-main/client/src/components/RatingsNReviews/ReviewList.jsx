@@ -50,8 +50,11 @@ const ReviewList = ( { handleAverageRate, handleReviews, onClick, productId, cur
     setIsPost(false);
     axios.get('/ratings/getReviews', { params: { Id: productId } })
       .then((response)=>{
+        var results = response.data.results;
+        // console.log('response.data.results', response.data);
         if (mounted) {
-          const sortByRevelant = response.data.slice(0).sort((x, y) => { return y.helpfulness - x.helpfulness || y.review_id - x.review_id; });
+          // console.log('results', results);
+          const sortByRevelant = results.slice(0).sort((x, y) => { return y.helpfulness - x.helpfulness || y.review_id - x.review_id; });
           const firstTwo = sortByRevelant.slice(0, 2);
           let searchBarResult;
           if (selectedArray === 'resetArray') {
@@ -76,7 +79,7 @@ const ReviewList = ( { handleAverageRate, handleReviews, onClick, productId, cur
               searchBarResult = searching(searchTerm, sortByRevelant);
               setOnScreenReviewArray(searchBarResult.slice(0).sort((x, y)=>{ return y.review_id - x.review_id; }).slice(0));
             } else {
-              setOnScreenReviewArray(response.data.slice(0).sort((x, y)=>{ return y.review_id - x.review_id; }).slice(0, 2));
+              setOnScreenReviewArray(results.slice(0).sort((x, y)=>{ return y.review_id - x.review_id; }).slice(0, 2));
             }
             setIsLoading(false);
           } else if (selectedArray === 'helpfulReviewArray') {
@@ -84,17 +87,19 @@ const ReviewList = ( { handleAverageRate, handleReviews, onClick, productId, cur
               searchBarResult = searching(searchTerm, sortByRevelant);
               setOnScreenReviewArray(searchBarResult.slice(0).sort((x, y)=>{ return y.helpfulness - x.helpfulness; }).slice(0));
             } else {
-              setOnScreenReviewArray(response.data.slice(0).sort((x, y)=>{ return y.helpfulness - x.helpfulness; }).slice(0, 2));
+              setOnScreenReviewArray(results.slice(0).sort((x, y)=>{ return y.helpfulness - x.helpfulness; }).slice(0, 2));
             }
             setIsLoading(false);
           }
           handleReviews(sortByRevelant.length);
           setTotalReviewArray(sortByRevelant);
-          setNewestReviewArray(response.data.slice(0).sort((x, y)=>{ return y.review_id - x.review_id; }));
-          setHelpfulReviewArray(response.data.slice(0).sort((x, y)=>{ return y.helpfulness - x.helpfulness; }));
+          setNewestReviewArray(results.slice(0).sort((x, y)=>{ return y.review_id - x.review_id; }));
+          setHelpfulReviewArray(results.slice(0).sort((x, y)=>{ return y.helpfulness - x.helpfulness; }));
           axios.get('ratings/ratingOverview', { params: { Id: productId } })
             .then((response)=>{
+              // console.log('response in comp', response);
               if (mounted) {
+                // console.log('response', response);
                 setAverageRate(response.data.ratings.average);
                 handleAverageRate(response.data.ratings.average);
                 setRecommended(response.data.recommended);
@@ -381,6 +386,7 @@ const ReviewList = ( { handleAverageRate, handleReviews, onClick, productId, cur
 
         <div className= "review-List">
           {isLoading === true ? <div className='review-loading'><i className="fas fa-spinner "></i> <h3>loading....</h3> </div> : onScreenReviewArray.map((user, index)=>{
+            // console.log('user.date', user.date);
             return (
               <div key={index} className="review-Cell" data-testid="review-Cell">
                 <div className="review-Top">

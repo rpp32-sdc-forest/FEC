@@ -1,6 +1,7 @@
 import React from 'react';
 
 const ProductBreakDown = ({ characteristics })=>{
+
   const sizeChart = {
     'Size': {
       'sm': 'Too small',
@@ -44,15 +45,23 @@ const ProductBreakDown = ({ characteristics })=>{
   };
   return (
     <div className='review-product'>
+
       {characteristics ? Object.keys(characteristics).map((key, index) => {
+        //create a new key
+        // console.log('char key', key);
+        // console.log('char at fit', characteristics[key]);
+        // console.log('fit value', characteristics[key].value);
+        // console.log('size chart at key', sizeChart[key]);
+        // console.log('parsed key size chart', sizeChart[JSON.parse(key)]);
+        var parsedKey = JSON.parse(key);
         return (
           <div key={index}>
             <span style={{fontSize: '16px', fontWeight: '900', color: 'black'}}>{key}</span>
             <div className='review-productTrack'>
               <span className='review-productTrack-bar'></span> <span className='review-productTrack-bar'></span> <span className='review-productTrack-bar'></span>
-              <span className='review-productTrack-text' id='review-productTrack-text-1'>{sizeChart[key]['sm']}</span>
-              <span className='review-productTrack-text' id='review-productTrack-text-2'>{sizeChart[key]['mid']}</span>
-              <span className='review-productTrack-text' id='review-productTrack-text-3'>{sizeChart[key]['lg']}</span>
+              <span className='review-productTrack-text' id='review-productTrack-text-1'>{sizeChart[parsedKey]['sm']}</span>
+              <span className='review-productTrack-text' id='review-productTrack-text-2'>{sizeChart[parsedKey]['mid']}</span>
+              <span className='review-productTrack-text' id='review-productTrack-text-3'>{sizeChart[parsedKey]['lg']}</span>
               <i data-testid="review-leftCorner-triangle" className='fas fa-caret-down' style={{left: calProductVal(characteristics[key]['value'])}}></i>
             </div>
           </div>
