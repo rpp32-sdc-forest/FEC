@@ -21,7 +21,8 @@ var getProductFromHR = function getProductFromHR(id, callback) {
 var getQuestionsFromHR = function getQuestionsFromHR(id, callback) {
   let options = {
     method: 'GET',
-    url: `http://localhost:3001/qa/questions/${id}`,
+    // url: `http://localhost:3001/qa/questions/${id}`,
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${id}`
   };
 
   axios.get(options.url, options)

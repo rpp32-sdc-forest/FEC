@@ -12,7 +12,7 @@ const getTotalReviews = (productId, page) => {
   };
   return axios(options)
     .then(response => {
-      // console.log('get Reviews res', response.data);
+      console.log('get Reviews res', response.data);
       return response.data;
     })
     .catch((err) => {
