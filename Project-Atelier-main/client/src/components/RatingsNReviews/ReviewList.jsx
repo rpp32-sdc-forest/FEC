@@ -298,8 +298,9 @@ const ReviewList = ( { handleAverageRate, handleReviews, onClick, productId, cur
     }
   };
   const convertDate = function (dateString) {
-    console.log('dateString in convertDate', dateString);
+    // console.log('dateString in convertDate', dateString);
     dateString = dateString.slice(0, dateString.length - 1 );
+    console.log('dateString after slice', dateString);
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
