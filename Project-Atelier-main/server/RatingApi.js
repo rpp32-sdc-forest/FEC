@@ -26,7 +26,8 @@ const updateHelpfulness = (reviewId) => {
   let options = {
     method: 'PUT',
     // url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${reviewId}/helpful`,
-    url: `http://localhost:5000/helpful/${reviewId}`
+    // url: `http://localhost:5000/helpful/${reviewId}`
+    url: `http://localhost:8080/ratings/helpful/${reviewId}`
     // headers: { Authorization: gitToken.Token },
   };
   return axios(options)
@@ -42,7 +43,8 @@ const updateHelpfulness = (reviewId) => {
 const updateReported = (reviewId) => {
   let options = {
     method: 'PUT',
-    url: `http://localhost:5000/report/${reviewId}`
+    // url: `http://localhost:5000/report/${reviewId}`
+    url: `http://localhost:8080/ratings/report/${reviewId}`
     // url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${reviewId}/report`,
     // headers: { Authorization: gitToken.Token },
   };
@@ -59,7 +61,8 @@ const ratingOverview = (productId) => {
   let options = {
     method: 'GET',
     // url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/meta?product_id=${productId}`,
-    url: 'http://localhost:5000/characteristics/18',
+    // url: 'http://localhost:5000/characteristics/18',
+    url: 'http://localhost:8080/ratings/characteristics/50'
     // headers: { Authorization: gitToken.Token },
   };
   return axios(options)
@@ -98,7 +101,8 @@ const postReview = async (body) => {
   let options = {
     method: 'POST',
     // url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews',
-    url: 'http://localhost:5000/ratings',
+    // url: 'http://localhost:5000/ratings',
+    url: 'http://localhost:8080/ratings/reviews',
     // headers: { Authorization: gitToken.Token },
     data: params
   };
