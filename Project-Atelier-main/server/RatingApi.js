@@ -1,12 +1,14 @@
 const axios = require('axios');
 const gitToken = require('../config.js');
+const url = 'http://localhost:8080';
 
 
 const getTotalReviews = (productId, page) => {
   let options = {
     method: 'GET',
     // url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${productId}&count=50&sort=relevant&page=${page}`,
-    url: 'http://localhost:5000/ratings/18',
+    // url: 'http://localhost:5000/ratings/28',
+    url: 'http://localhost:8080/ratings/reviews/50'
     // url: `http://localhost:5000/ratings/${productId}`,
     // headers: { Authorization: gitToken.Token },
   };
@@ -74,7 +76,7 @@ const ratingOverview = (productId) => {
 };
 
 const postReview = async (body) => {
-  console.log('body in server', body);
+  console.log('post review body in server', body);
   let params = {
     'product_id': body.productId,
     'rating': body.rating,

@@ -51,7 +51,7 @@ const ReviewList = ( { handleAverageRate, handleReviews, onClick, productId, cur
     axios.get('/ratings/getReviews', { params: { Id: productId } })
       .then((response)=>{
         var results = response.data.results;
-        // console.log('response.data.results', response.data);
+        console.log('response.data.results', response.data);
         if (mounted) {
           // console.log('results', results);
           const sortByRevelant = results.slice(0).sort((x, y) => { return y.helpfulness - x.helpfulness || y.review_id - x.review_id; });
@@ -298,9 +298,10 @@ const ReviewList = ( { handleAverageRate, handleReviews, onClick, productId, cur
     }
   };
   const convertDate = function (dateString) {
-    console.log('dateString in convertDate', dateString);
+    dateString = dateString || new Date();
+    // console.log('dateString in convertDate', dateString);
     dateString = dateString.slice(0, dateString.length - 1 );
-    console.log('dateString after slice', dateString);
+    // console.log('dateString after slice', dateString);
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
