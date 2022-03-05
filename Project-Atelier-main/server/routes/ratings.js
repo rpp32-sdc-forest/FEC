@@ -8,22 +8,24 @@ ratingsRouter.get('/', (req, res) => {
 ratingsRouter.get('/getReviews', async (req, res) => {
   let productId = req.query.Id;
   let totalReviews = await RatingApi.getTotalReviews(productId, 1);
-  let prevReviews = totalReviews.results.slice();
-  var newReviews = [];
-  let i = 2;
-  while (prevReviews.length > 0) {
-    let temp = await RatingApi.getTotalReviews(productId, i);
-    if (temp) {
-      prevReviews = temp.results.slice();
-      if (prevReviews.length > 0) {
-        newReviews.push(prevReviews.slice());
-        i++;
-      }
-    }
-  }
-  newReviews = newReviews.flat();
-  let result = totalReviews.results.concat(newReviews);
-  res.status(200).send(result);
+
+  // let prevReviews = await totalReviews.results.slice();
+  // console.log('prevReviews', prevReviews);
+  // var newReviews = [];
+  // let i = 2;
+  // while (prevReviews.length > 0) {
+  //   let temp = await RatingApi.getTotalReviews(productId, i);
+  //   if (temp) {
+  //     prevReviews = temp.results.slice();
+  //     if (prevReviews.length > 0) {
+  //       newReviews.push(prevReviews.slice());
+  //       i++;
+  //     }
+  //   }
+  // }
+  // newReviews = newReviews.flat();
+  // let result = totalReviews.results.concat(newReviews);
+  res.status(200).send(totalReviews);
 });
 
 ratingsRouter.post('/updateHelpfulness', async (req, res) => {

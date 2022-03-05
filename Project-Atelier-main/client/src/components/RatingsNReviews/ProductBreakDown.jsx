@@ -44,6 +44,7 @@ const ProductBreakDown = ({ characteristics })=>{
   };
   return (
     <div className='review-product'>
+
       {characteristics ? Object.keys(characteristics).map((key, index) => {
         return (
           <div key={index}>

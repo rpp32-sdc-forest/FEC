@@ -1,15 +1,20 @@
 const axios = require('axios');
 const gitToken = require('../config.js');
+const url = 'http://localhost:8080';
 
 
 const getTotalReviews = (productId, page) => {
   let options = {
     method: 'GET',
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${productId}&count=50&sort=relevant&page=${page}`,
-    headers: { Authorization: gitToken.Token },
+    // url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${productId}&count=50&sort=relevant&page=${page}`,
+    // url: 'http://localhost:5000/ratings/28',
+    url: 'http://localhost:8080/ratings/reviews/50'
+    // url: `http://localhost:5000/ratings/${productId}`,
+    // headers: { Authorization: gitToken.Token },
   };
   return axios(options)
     .then(response => {
+      console.log('get Reviews res', response.data);
       return response.data;
     })
     .catch((err) => {
@@ -17,13 +22,17 @@ const getTotalReviews = (productId, page) => {
     });
 };
 const updateHelpfulness = (reviewId) => {
+  // console.log('reviewId in server', reviewId);
   let options = {
     method: 'PUT',
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${reviewId}/helpful`,
-    headers: { Authorization: gitToken.Token },
+    // url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${reviewId}/helpful`,
+    // url: `http://localhost:5000/helpful/${reviewId}`
+    url: `http://localhost:8080/ratings/helpful/${reviewId}`
+    // headers: { Authorization: gitToken.Token },
   };
   return axios(options)
     .then(response => {
+      // console.log('response', response);
       return response;
     })
     .catch((err) => {
@@ -34,8 +43,10 @@ const updateHelpfulness = (reviewId) => {
 const updateReported = (reviewId) => {
   let options = {
     method: 'PUT',
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${reviewId}/report`,
-    headers: { Authorization: gitToken.Token },
+    // url: `http://localhost:5000/report/${reviewId}`
+    url: `http://localhost:8080/ratings/report/${reviewId}`
+    // url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/${reviewId}/report`,
+    // headers: { Authorization: gitToken.Token },
   };
   return axios(options)
     .then(response => {
@@ -49,11 +60,18 @@ const updateReported = (reviewId) => {
 const ratingOverview = (productId) => {
   let options = {
     method: 'GET',
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/meta?product_id=${productId}`,
-    headers: { Authorization: gitToken.Token },
+    // url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/meta?product_id=${productId}`,
+    // url: 'http://localhost:5000/characteristics/18',
+    // url: 'http://localhost:8080/ratings/characteristics/50'
+    url: 'http://174.129.180.103:5000/ratings/characteristics/50'
+    // headers: { Authorization: gitToken.Token },
   };
   return axios(options)
     .then(response => {
+      // console.log('response in server', response.data);
+      //parse
+      // response = JSON.parse(response.data);
+      // console.log('parsed response', response);
       return response.data;
     })
     .catch((err) => {
@@ -62,6 +80,7 @@ const ratingOverview = (productId) => {
 };
 
 const postReview = async (body) => {
+  console.log('post review body in server', body);
   let params = {
     'product_id': body.productId,
     'rating': body.rating,
@@ -79,10 +98,13 @@ const postReview = async (body) => {
       params['characteristics'][chars[i].Id] = chars[i].val;
     }
   }
+  console.log('params', params);
   let options = {
     method: 'POST',
-    url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews',
-    headers: { Authorization: gitToken.Token },
+    // url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews',
+    // url: 'http://localhost:5000/ratings',
+    url: 'http://localhost:8080/ratings/reviews',
+    // headers: { Authorization: gitToken.Token },
     data: params
   };
   return axios(options)
