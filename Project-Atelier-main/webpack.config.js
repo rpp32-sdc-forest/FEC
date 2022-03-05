@@ -60,6 +60,16 @@ module.exports = {
       }
     ]
   },
+  devServer: {
+    proxy: {
+      '/qna': {
+        target: 'http://localhost:3001',
+        pathRewrite: {
+          '^/qna': ''
+        }
+      }
+    }
+  },
   output: {
     filename: 'bundle.js',
     path: __dirname + '/client/dist'

@@ -2,19 +2,19 @@ const qnaRouter = require('express').Router();
 const axios = require('axios');
 const api = require('../qnaApi.js');
 const qnaController = require('./qna_controller.js');
+// /home/ubuntu/QNA-API
+// qnaRouter.get('/getProductById', (req, res) => {
+//   let id = req.query.id;
 
-qnaRouter.get('/getProductById', (req, res) => {
-  let id = req.query.id;
-
-  qnaController.receiveProductInfoById(id)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      console.log(err);
-      res.sendStatus(400);
-    });
-});
+//   qnaController.receiveProductInfoById(id)
+//     .then(data => {
+//       res.send(data);
+//     })
+//     .catch(err => {
+//       console.log(err);
+//       res.sendStatus(400);
+//     });
+// });
 
 qnaRouter.get('/getQuestionsList', (req, res) =>{
   let id = req.query.id;

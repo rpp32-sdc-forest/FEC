@@ -73,7 +73,7 @@ class QnA extends React.Component {
       });
     }
     //GET QUESTIONS LIST BY PRODUCT ID
-    var url = '/qna/getQuestionsList';
+    var url = '/qna/getQuestionsList/';
     axios.get(url, {params: {id: productId}})
       .then((response) => {
         console.log('questions:', response.data);
@@ -102,15 +102,17 @@ class QnA extends React.Component {
   clickOnHelpfulQuestion(productId, questionId) {
     productId = this.props.currentProduct.id;
     console.log('clicked on helpful question');
-    var url = '/qna/updateQuestionHelp';
-    axios.put(url, {params: {questionId: questionId, productId: productId}})
+    // var url = '/qna/updateQuestionHelp';
+    var url = `/qna/questions/${questionId}/helpful`;
+    axios.put(url)
       .then((response) => {
         if (this._isMounted) {
           this.setState({
             isHelpful: true
           });
         }
-        this.updateQuestionList(response.data.results);
+        // this.updateQuestionList(response.data.results);
+        this.componentDidMount();
       })
       .catch(function (error) {
         console.log(error);
@@ -121,12 +123,15 @@ class QnA extends React.Component {
     productId = this.props.currentProduct.id;
     console.log('clicked on submit new question');
     //SEND REQUEST TO SERVER TO ADD A NEW QUESTION
-    var url = '/qna/addNewQuestion';
-    axios.post(url, {params: {id: productId, body: body, name: nickname, email: email}})
+    var url = `/qna/questions/${productId}/${body}/${nickname}/${email}`;
+    // var url = '/qna/questions/';
+    //, {body: {id: productId, body: body, name: nickname, email: email}}
+    axios.post(url)
       .then((response) => {
         console.log('received question list after adding question');
         console.log(response.data.results);
-        this.updateQuestionList (response.data.results);
+        // this.updateQuestionList (response.data.results);
+        this.componentDidMount();
       })
       .catch(function (error) {
         console.log(error);
@@ -155,10 +160,11 @@ class QnA extends React.Component {
 
   clickOnHelpfulAnswer(answerId, productId) {
     productId = this.props.currentProduct.id;
-    var url = '/qna/updateAnswerHelp';
-    axios.put(url, {params: {answerId: answerId, productId: productId}})
+    var url = `/qna/answers/${answerId}/helpful`;
+    axios.put(url)
       .then((response) => {
-        this.updateQuestionList(response.data.results);
+        // this.updateQuestionList(response.data.results);
+        this.componentDidMount();
       })
       .catch(function (error) {
         console.log(error);
@@ -169,12 +175,13 @@ class QnA extends React.Component {
     console.log('clicked on report answer');
     productId = this.props.currentProduct.id;
     //SEND REQUEST TO REPORT ANSWER
-    var url = '/qna/reportAnswer';
+    var url = `/qna/answers/${answerId}/report`;
     if (answerId) {
-      axios.put(url, {params: {answerId: answerId, productId: productId}})
+      axios.put(url)
         .then((response) => {
           console.log('sent response to client', response);
-          this.updateQuestionList(response.data.results);
+          // this.updateQuestionList(response.data.results);
+          this.componentDidMount();
         })
         .catch(function (error) {
           console.log(error);
@@ -185,12 +192,13 @@ class QnA extends React.Component {
   reportQuestion(questionId) {
     console.log('clicked on report question');
     //SEND REQUEST TO REPORT ANSWER
-    var url = '/qna/reportQuestion';
+    var url = `/qna/questions/${questionId}/report`;
     let productId = this.props.currentProduct.id;
-    axios.put(url, {params: {questionId: questionId, productId: productId}})
+    axios.put(url)
       .then((response) => {
         console.log('sent response to client', response);
-        this.updateQuestionList(response.data.results);
+        // this.updateQuestionList(response.data.results);
+        this.componentDidMount();
       })
       .catch(function (error) {
         console.log(error);
@@ -227,8 +235,11 @@ class QnA extends React.Component {
         .then(result => {
           console.log('promises resolved');
           //SEND REQUEST TO SERVER TO ADD A NEW ANSWER
-          var url = '/qna/addNewAnswer';
-          axios.post(url, {params: {id: questionId, productId: productId, body: body, name: nickname, email: email, photos: photosToSend}})
+          // var url = '/qna/addNewAnswer';
+          //, {params: {id: questionId, productId: productId, body: body, name: nickname, email: email, photos: photosToSend}}
+          // ${body}/${nickname}/${email}/${photosToSend}
+          var url = '/qna/answers';
+          axios.post(url,{params: {id: questionId, productId: productId, body: body, name: nickname, email: email, photos: photosToSend}})
             .then((response) => {
               console.log('added new answer', response.data.results);
               //render new answer in the parent component
@@ -242,12 +253,15 @@ class QnA extends React.Component {
       //send answer without photos
       //SEND REQUEST TO SERVER TO ADD A NEW ANSWER
       console.log('front end post answers');
-      var url = '/qna/addNewAnswer';
+      let temp = [];
+      var url = '/qna/answers';
+      //, {params: {id: questionId, productId: productId, body: body, name: nickname, email: email, photos: []}}
       axios.post(url, {params: {id: questionId, productId: productId, body: body, name: nickname, email: email, photos: []}})
         .then((response) => {
           console.log('added new answer', response.data.results);
           //render new answer in the parent component
-          this.updateQuestionList(response.data.results);
+          // this.updateQuestionList(response.data.results);
+          this.componentDidMount();
         })
         .catch(function (error) {
           console.log(error);

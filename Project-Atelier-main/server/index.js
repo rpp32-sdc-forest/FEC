@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const app = express();
@@ -12,7 +13,13 @@ const qnaRouter = require('./routes/qna.js');
 const cartRouter = require('./routes/cart.js');
 const relProductsRouter = require('./routes/relProduct.js');
 const interactionsRouter = require('./routes/interactions.js');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
+
+// app.use('/qna', qnaRouter);
+app.use(createProxyMiddleware('/qna', { target: 'http://3.87.213.103:3001' }));
+// app.use(createProxyMiddleware('/ratings', { target: 'localhost:3001' }));
+app.use(bodyParser.urlencoded({extended: false, type: 'application/x-www-form-urlencoded'}));
 app.use(compression());
 app.use(expressStaticGzip(__dirname + '/../client/dist', {
   enableBrotli: true
@@ -20,11 +27,11 @@ app.use(expressStaticGzip(__dirname + '/../client/dist', {
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use('/qna', qnaRouter);
 app.use('/product', productRouter);
 app.use('/product', relProductsRouter);
 app.use('/ratings', ratingsRouter);
-app.use('/qna', qnaRouter);
+
 app.use('/cart', cartRouter);
 app.use('/interactions', interactionsRouter);
 
