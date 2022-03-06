@@ -15,7 +15,6 @@ const relProductsRouter = require('./routes/relProduct.js');
 const interactionsRouter = require('./routes/interactions.js');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
-
 // app.use('/qna', qnaRouter);
 app.use(createProxyMiddleware('/qna', { target: 'http://3.87.213.103:3001' }));
 // app.use(createProxyMiddleware('/ratings', { target: 'localhost:3001' }));
