@@ -53,16 +53,16 @@ export var getQuestionsListInfo = async (productId) => {
     });
 };
 
-export var getReviewInfo = async (productId) => {
-  const styleUrl = '/product/reviewInfo';
-  return await axios.get(styleUrl, { params: { id: productId } })
-    .then((response) => {
-      return response.data;
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-};
+// export var getReviewInfo = async (productId) => {
+//   const styleUrl = '/product/reviewInfo';
+//   return await axios.get(styleUrl, { params: { id: productId } })
+//     .then((response) => {
+//       return response.data;
+//     })
+//     .catch(function (error) {
+//       console.log(error);
+//     });
+// };
 
 export var sendInteractions = async (data) => {
   const interactionsUrl = '/interactions/postData';

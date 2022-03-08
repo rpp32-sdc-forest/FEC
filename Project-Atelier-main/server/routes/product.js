@@ -56,21 +56,21 @@ productRouter.get('/productInfo', async (req, res) => {
 
   var prodInfo = await productApi.getSpecificProduct(id);
   var prodStyleInfo = await productApi.getProductStyles(id);
-  var prodRatingInfo = await ratingApi.ratingOverview(id);
-  var prodRatingAverage = await averageRate(prodRatingInfo.ratings, prodRatingInfo.recommended);
-  if (prodRatingAverage) {
-    prodRatingInfo.ratings.average = prodRatingAverage[0];
-    prodRatingInfo.recommended = prodRatingAverage[1];
-    prodRatingInfo.ratings['1'] = prodRatingAverage[2];
-    prodRatingInfo.ratings['2'] = prodRatingAverage[3];
-    prodRatingInfo.ratings['3'] = prodRatingAverage[4];
-    prodRatingInfo.ratings['4'] = prodRatingAverage[5];
-    prodRatingInfo.ratings['5'] = prodRatingAverage[6];
-  }
+  // var prodRatingInfo = await ratingApi.ratingOverview(id);
+  // var prodRatingAverage = await averageRate(prodRatingInfo.ratings, prodRatingInfo.recommended);
+  // if (prodRatingAverage) {
+  //   prodRatingInfo.ratings.average = prodRatingAverage[0];
+  //   prodRatingInfo.recommended = prodRatingAverage[1];
+  //   prodRatingInfo.ratings['1'] = prodRatingAverage[2];
+  //   prodRatingInfo.ratings['2'] = prodRatingAverage[3];
+  //   prodRatingInfo.ratings['3'] = prodRatingAverage[4];
+  //   prodRatingInfo.ratings['4'] = prodRatingAverage[5];
+  //   prodRatingInfo.ratings['5'] = prodRatingAverage[6];
+  // }
   var productData = {
     ...prodInfo,
     ...prodStyleInfo,
-    ...prodRatingInfo
+    // ...prodRatingInfo
   };
 
   res.status(200).send(productData);
@@ -83,10 +83,10 @@ productRouter.get('/styleInfo', async (req, res) => {
   res.send(data);
 });
 
-productRouter.get('/reviewInfo', async (req, res) => {
-  let id = req.query.id;
-  var data = await productApi.getProductReviews(id);
-  res.send(data);
-});
+// productRouter.get('/reviewInfo', async (req, res) => {
+//   let id = req.query.id;
+//   var data = await productApi.getProductReviews(id);
+//   res.send(data);
+// });
 
 module.exports = productRouter;

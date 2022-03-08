@@ -239,7 +239,7 @@ class QnA extends React.Component {
           //, {params: {id: questionId, productId: productId, body: body, name: nickname, email: email, photos: photosToSend}}
           // ${body}/${nickname}/${email}/${photosToSend}
           var url = '/qna/answers';
-          axios.post(url,{params: {id: questionId, productId: productId, body: body, name: nickname, email: email, photos: photosToSend}})
+          axios.post(url, {params: {id: questionId, productId: productId, body: body, name: nickname, email: email, photos: photosToSend}})
             .then((response) => {
               console.log('added new answer', response.data.results);
               //render new answer in the parent component

@@ -6,11 +6,11 @@ const url = 'http://localhost:8080';
 const getTotalReviews = (productId, page) => {
   let options = {
     method: 'GET',
-    // url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${productId}&count=50&sort=relevant&page=${page}`,
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${productId}&count=50&sort=relevant&page=${page}`,
     // url: 'http://localhost:5000/ratings/28',
-    url: 'http://localhost:8080/ratings/reviews/50'
+    // url: 'http://localhost:8080/ratings/reviews/50'
     // url: `http://localhost:5000/ratings/${productId}`,
-    // headers: { Authorization: gitToken.Token },
+    headers: { Authorization: gitToken.Token },
   };
   return axios(options)
     .then(response => {
@@ -60,11 +60,11 @@ const updateReported = (reviewId) => {
 const ratingOverview = (productId) => {
   let options = {
     method: 'GET',
-    // url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/meta?product_id=${productId}`,
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/meta?product_id=${productId}`,
     // url: 'http://localhost:5000/characteristics/18',
     // url: 'http://localhost:8080/ratings/characteristics/50'
-    url: 'http://174.129.180.103:5000/ratings/characteristics/50'
-    // headers: { Authorization: gitToken.Token },
+    // url: 'http://174.129.180.103:5000/ratings/characteristics/50'
+    headers: { Authorization: gitToken.Token },
   };
   return axios(options)
     .then(response => {
