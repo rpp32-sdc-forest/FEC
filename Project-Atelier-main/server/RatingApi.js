@@ -62,8 +62,8 @@ const ratingOverview = (productId) => {
     method: 'GET',
     // url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/meta?product_id=${productId}`,
     // url: 'http://localhost:5000/characteristics/18',
-    // url: 'http://localhost:8080/ratings/characteristics/50'
-    url: 'http://174.129.180.103:5000/ratings/characteristics/50'
+    url: 'http://localhost:8080/ratings/characteristics/50'
+    // url: 'http://174.129.180.103:5000/ratings/characteristics/50'
     // headers: { Authorization: gitToken.Token },
   };
   return axios(options)

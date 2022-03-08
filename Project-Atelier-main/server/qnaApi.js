@@ -1,27 +1,27 @@
 const axios = require('axios');
 const gitToken = require('../config.js');
 
-var getProductFromHR = function getProductFromHR(id, callback) {
-  let options = {
-    method: 'GET',
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${id}`,
-    headers: { Authorization: gitToken.Token },
-  };
-  axios.get(options.url, options)
-    .then(function (response) {
-      callback(null, response.data);
-    })
-    .catch(function (error) {
-      callback(error, null);
-    });
+// var getProductFromHR = function getProductFromHR(id, callback) {
+//   let options = {
+//     method: 'GET',
+//     url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${id}`,
+//     headers: { Authorization: gitToken.Token },
+//   };
+//   axios.get(options.url, options)
+//     .then(function (response) {
+//       callback(null, response.data);
+//     })
+//     .catch(function (error) {
+//       callback(error, null);
+//     });
 
-};
+// };
 
 // https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${id}
 var getQuestionsFromHR = function getQuestionsFromHR(id, callback) {
   let options = {
     method: 'GET',
-    url: `http://localhost:3001/qna/getQuestionsList/${id}`,
+    url: 'http://localhost:8080/qna/getQuestionsList/',
   };
 
   axios.get(options.url, options)
@@ -164,7 +164,7 @@ var reportQuestionToHR = function reportQuestionToServer (questionId, callback) 
 };
 
 module.exports = {
-  getProductFromHR,
+  // getProductFromHR,
   getQuestionsFromHR,
   addQuestionHelpHR,
   addAnswerHelpHR,
