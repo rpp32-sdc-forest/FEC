@@ -33,22 +33,24 @@ const averageRate = function(ratings, recommended) {
 };
 productRouter.get('/allProducts', async (req, res) => {
   let totalProducts = await productApi.getTotalProducts(1);
-  let prevProducts = totalProducts.slice();
-  var newProducts = [];
-  let i = 2;
-  while (prevProducts.length > 0) {
-    let temp = await productApi.getTotalProducts(i);
-    if (temp) {
-      prevProducts = temp.slice();
-      if (prevProducts.length > 0) {
-        newProducts.push(prevProducts.slice());
-        i++;
+  if (totalProducts) {
+    let prevProducts = totalProducts.slice();
+    var newProducts = [];
+    let i = 2;
+    while (prevProducts.length > 0) {
+      let temp = await productApi.getTotalProducts(i);
+      if (temp) {
+        prevProducts = temp.slice();
+        if (prevProducts.length > 0) {
+          newProducts.push(prevProducts.slice());
+          i++;
+        }
       }
     }
+    newProducts = newProducts.flat();
+    let result = totalProducts.concat(newProducts);
+    res.status(200).send(result);
   }
-  newProducts = newProducts.flat();
-  let result = totalProducts.concat(newProducts);
-  res.status(200).send(result);
 });
 
 productRouter.get('/productInfo', async (req, res) => {
