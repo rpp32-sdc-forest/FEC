@@ -18,7 +18,7 @@ const qnaController = require('./qna_controller.js');
 
 qnaRouter.get('/getQuestionsList', (req, res) =>{
   let id = req.query.id;
-
+  console.log('QNA API');
   qnaController.receiveQuestionList(id).
     then(data => {
       res.send(data);
