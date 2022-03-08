@@ -53,7 +53,9 @@ var getAnswersFromHR = function getQuestionsFromHR(id, callback) {
 var addQuestionHelpHR = function addQuestionHelpHR(id, callback) {
   let options = {
     method: 'PUT',
-    url: `http://localhost:3001/qa/questions/${id}/helpful`,
+    // url: `http://localhost:3001/qa/questions/${id}/helpful`,
+    url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions',
+    headers: { Authorization: gitToken.Token }
   };
   console.log('question helpful:', id);
   axios.put(options.url, '', options)
@@ -68,7 +70,9 @@ var addQuestionHelpHR = function addQuestionHelpHR(id, callback) {
 var addAnswerHelpHR = function addAnswerHelpHR(id, callback) {
   let options = {
     method: 'PUT',
-    url: `http://localhost:3001/qa/answers/${id}/helpful`,
+    // url: `http://localhost:3001/qa/answers/${id}/helpful`,
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${id}`,
+    headers: { Authorization: gitToken.Token }
   };
   console.log('answer helpful:', id);
   axios.put(options.url, '', options)
@@ -83,9 +87,11 @@ var addAnswerHelpHR = function addAnswerHelpHR(id, callback) {
 var addNewQuestionToHR = function addNewQuestionToHR(id, body, name, email, callback) {
   let options = {
     method: 'POST',
-    url: `http://localhost:3001/qa/questions/${id}`,
+    // url: `http://localhost:3001/qa/questions/${id}`,
+    url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions',
     // eslint-disable-next-line camelcase
-    body: { body: body, name: name, email: email, product_id: id }
+    body: { body: body, name: name, email: email, product_id: id },
+    headers: { Authorization: gitToken.Token }
   };
   axios.post(options.url, options.body, options)
     .then(function (response) {
@@ -103,8 +109,10 @@ var addNewAnswerToHR = function addNewAnswerToHR(questionId, body, name, email, 
 
   let options = {
     method: 'POST',
-    url: `http://localhost:3001/qa/answers/${questionId}`,
-    body: {id: questionId, body: body, name: name, email: email, photos: photos }
+    // url: `http://localhost:3001/qa/answers/${questionId}`,
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions/${questionId}/answers`,
+    body: {id: questionId, body: body, name: name, email: email, photos: photos },
+    headers: { Authorization: gitToken.Token }
   };
   console.log('server is adding new answer3:', questionId, body, name, email, photos);
 
@@ -123,7 +131,9 @@ var reportAnswerToHR = function reportAnswerToServer (answerId, callback) {
 
   let options = {
     method: 'PUT',
-    url: `http://localhost:3001/qa/answers/${answerId}/report`,
+    // url: `http://localhost:3001/qa/answers/${answerId}/report`,
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/answers/${answerId}/report`,
+    headers: { Authorization: gitToken.Token }
   };
 
   axios.put(options.url, '', options)
@@ -141,6 +151,7 @@ var reportQuestionToHR = function reportQuestionToServer (questionId, callback) 
   let options = {
     method: 'PUT',
     url: `http://localhost:3001/qa/questions/${questionId}/report`,
+    headers: { Authorization: gitToken.Token }
   };
   axios.put(options.url, '', options)
     .then(function (response) {

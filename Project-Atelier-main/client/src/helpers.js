@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export var getAllProducts = async () => {
-  const productUrl = '/product/allProducts';
+  const productUrl = '/products';
   return await axios.get(productUrl)
     .then((response) => {
       console.log('totalproducts:', response.data[0].id);
