@@ -58,13 +58,14 @@ var increaseAnswerHelp = function increaseAnswerHelp(id) {
     });
   });
 };
-
-var addQuestionToServer = function addQuestionToServer(productId, body, name, email) {
+// productId, body, name, email
+var addQuestionToServer = function addQuestionToServer(body) {
   return new Promise((resolve, reject) => {
-    api.addNewQuestionToHR(productId, body, name, email, (err, result) => {
+    api.addNewQuestionToHR(body, (err, result) => {
       if (err) {
         reject(err);
       } else {
+        console.log('add Q controller');
         resolve(result);
       }
     });

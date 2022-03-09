@@ -42,10 +42,10 @@ qnaRouter.get('/getAnswersList', (req, res) =>{
 
 });
 
-qnaRouter.put('/updateQuestionHelp', (req, res) => {
-  let questionId = req.body.params.questionId;
-  let productId = req.body.params.productId;
-  console.log('server update:', questionId, productId);
+qnaRouter.put('/questions/:questionId/:productId/helpful', (req, res) => {
+  let questionId = req.params.questionId;
+  let productId = req.params.productId;
+  console.log('server question helpful:', questionId, productId);
   qnaController.increaseQuestionHelp(questionId)
     .then(data => {
       qnaController.receiveQuestionList(productId)
@@ -58,9 +58,9 @@ qnaRouter.put('/updateQuestionHelp', (req, res) => {
     });
 });
 
-qnaRouter.put('/updateAnswerHelp', (req, res) => {
-  let answerId = req.body.params.answerId;
-  let productId = req.body.params.productId;
+qnaRouter.put('/answers/:answerId/:productId/helpful', (req, res) => {
+  let answerId = req.params.answerId;
+  let productId = req.params.productId;
 
   qnaController.increaseAnswerHelp(answerId)
     .then(data => {
@@ -75,20 +75,19 @@ qnaRouter.put('/updateAnswerHelp', (req, res) => {
 
 });
 
-qnaRouter.post('/addNewQuestion', async (req, res) => {
-  //console.log(req.body);
-  let productId = req.body.params.id;
-  let body = req.body.params.body;
-  let name = req.body.params.name;
-  let email = req.body.params.email;
-
-  await qnaController.addQuestionToServer(productId, body, name, email)
+qnaRouter.post('/questions', async (req, res) => {
+  //console.log('qna router all new Q:', req.body);
+  let productId = req.body.body.id;
+  // let body = req.body.body;
+  // let name = req.body.name;
+  // let email = req.body.email;
+  const body = req.body;
+  await qnaController.addQuestionToServer(body)
     .then ((data) => {
-      //console.log('server 75');
       qnaController.receiveQuestionList(productId)
         .then(result => {
-          // console.log('after post2:', result);
-          res.send(result);
+          //console.log('after post2:', result);
+          res.sendStatus(201);
         });
     })
     .catch(error => {
@@ -97,14 +96,14 @@ qnaRouter.post('/addNewQuestion', async (req, res) => {
 });
 
 
-qnaRouter.post('/addNewAnswer', async (req, res) => {
-  let productId = req.body.params.productId;
-  let questionId = req.body.params.id;
-  let body = req.body.params.body;
-  let name = req.body.params.name;
-  let email = req.body.params.email;
-  let photos = req.body.params.photos;
-  console.log('server is adding new answer');
+qnaRouter.post('/answers', async (req, res) => {
+  let productId = req.body.productId;
+  let questionId = req.body.id;
+  let body = req.body.body;
+  let name = req.body.name;
+  let email = req.body.email;
+  let photos = req.body.photos;
+  console.log('server is adding new answer:', req.body);
   await qnaController.addAnswerToServer(questionId, body, name, email, photos)
     .then(async data =>{
       await qnaController.receiveQuestionList(productId)
@@ -117,10 +116,10 @@ qnaRouter.post('/addNewAnswer', async (req, res) => {
     });
 });
 
-qnaRouter.put('/reportAnswer', (req, res) => {
-  let productId = req.body.params.productId;
-  let answerId = req.body.params.answerId;
-
+qnaRouter.put('/answers/:answerId/:productId/report', (req, res) => {
+  console.log('report answer:', req.params);
+  let productId = req.params.productId;
+  let answerId = req.params.answerId;
   qnaController.reportAnswerToServer(answerId)
     .then(data =>{
       qnaController.receiveQuestionList(productId)
@@ -133,9 +132,10 @@ qnaRouter.put('/reportAnswer', (req, res) => {
     });
 });
 
-qnaRouter.put('/reportQuestion', (req, res) => {
-  let questionId = req.body.params.questionId;
-  let productId = req.body.params.productId;
+qnaRouter.put('/questions/:questionId/:productId/report', (req, res) => {
+  let questionId = req.params.questionId;
+  let productId = req.params.productId;
+  console.log('report question:', questionId, productId);
   qnaController.reportQuestionToServer(questionId)
     .then(data =>{
       qnaController.receiveQuestionList(productId)

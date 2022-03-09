@@ -126,8 +126,9 @@ class QuestionsListItem extends React.Component {
       answerItems;
 
     if (this.state.buttonText === 'COLLAPSE ANSWERS') {
-      answerItems = Object.values(this.props.question.answers);
-
+      if (this.props.question.answers) {
+        answerItems = Object.values(this.props.question.answers);
+      }
     } else {
       if (this.props.question.answers) {
         answerItems = Object.values(this.props.question.answers).slice(0, 2);
