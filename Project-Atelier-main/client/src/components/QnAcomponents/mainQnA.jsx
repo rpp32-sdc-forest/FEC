@@ -39,8 +39,8 @@ class QnA extends React.Component {
     if (prevProps.currentProduct.id !== this.props.currentProduct.id) {
       let productId = this.props.currentProduct.id;
       //GET QUESTIONS LIST BY PRODUCT ID
-      var url = '/qna/getQuestionsList';
-      axios.get(url, {params: {id: productId}})
+      var url = `/qna/getQuestionsList/${productId}`;
+      axios.get(url)
         .then((response) => {
           console.log('got question list main 59');
 
@@ -73,8 +73,9 @@ class QnA extends React.Component {
       });
     }
     //GET QUESTIONS LIST BY PRODUCT ID
-    var url = '/qna/getQuestionsList/';
-    axios.get(url, {params: {id: productId}})
+    //, {params: {id: productId}}
+    var url = `/qna/getQuestionsList/${productId}`;
+    axios.get(url)
       .then((response) => {
         console.log('questions:', response.data);
         var questionsToShow = response.data.results;
@@ -138,12 +139,11 @@ class QnA extends React.Component {
   }
 
   showMoreQuestions() {
-    //let productId = this.props.currentProduct.id;
-
+    let productId = this.props.currentProduct.id;
     console.log('click');
     //GET ALL QUESTIONS BY PRODUCT ID
-    var url = '/qna/getQuestionsList';
-    axios.get(url, {params: {id: this.props.currentProduct.id}})
+    var url = `/qna/getQuestionsList/${productId}`;
+    axios.get(url)
       .then((response) => {
         if (this._isMounted) {
           this.setState({
@@ -287,8 +287,8 @@ class QnA extends React.Component {
     //console.log('isSearchTriggered=', isSearchTriggered);
     if (isSearchTriggered === true) {
     //GET LIST OF ALL QUESTIONS BY PRODUCT ID
-      var url = '/qna/getQuestionsList';
-      axios.get(url, {params: {id: productId}})
+      var url = `/qna/getQuestionsList/${productId}`;
+      axios.get(url)
         .then((response) => {
           query = query.toLowerCase();
           console.log('received query', query);

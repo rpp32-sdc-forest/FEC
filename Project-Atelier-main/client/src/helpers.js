@@ -43,8 +43,8 @@ export var getRelatedProductInfo = async (productId) => {
 };
 
 export var getQuestionsListInfo = async (productId) => {
-  var url = '/qna/getQuestionsList/';
-  return await axios.get(url, {params: { id: productId} })
+  var url = `/qna/getQuestionsList/${productId}`;
+  return await axios.get(url)
     .then((response) => {
       return response.data.results;
     })
