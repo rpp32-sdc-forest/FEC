@@ -29,7 +29,7 @@ app.get('/ratings', (req, res) => {
     .catch(err => console.log('error in proxy get', err));
 });
 
-app.use(createProxyMiddleware('/qna', { target: 'http://localhost:3001' }));
+app.use(createProxyMiddleware('/qna', { target: 'http://54.89.22.70:3001' }));
 
 app.get('*', (req, res) => {
   console.log('req', req.originalUrl);

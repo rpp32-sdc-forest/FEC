@@ -16,9 +16,9 @@ const qnaController = require('./qna_controller.js');
 //     });
 // });
 
-qnaRouter.get('/getQuestionsList', (req, res) =>{
-  let id = req.query.id;
-  console.log('QNA API');
+qnaRouter.get('/getQuestionsList/:id', (req, res) =>{
+  let id = req.params.id;
+  //console.log('QNA API:', id);
   qnaController.receiveQuestionList(id).
     then(data => {
       res.send(data);

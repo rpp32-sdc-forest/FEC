@@ -19,12 +19,14 @@ const gitToken = require('../config.js');
 
 // https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${id}
 var getQuestionsFromHR = function getQuestionsFromHR(id, callback) {
+  console.log('get Question:', id);
   let options = {
     method: 'GET',
-    url: 'http://localhost:8080/qna/getQuestionsList/',
+    url: `http://52.90.176.126:8080/qna/getQuestionsList/${id}`,
     //url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/qa/questions?product_id=${id}`,
     //headers: { Authorization: gitToken.Token }
-    params: {id: id},
+    // params: {id: id},
+    //52.90.176.126:8080
   };
 
   axios.get(options.url, options)
